@@ -15,13 +15,13 @@ services:
         container_name: fevrips-db
         image: mcr.microsoft.com/mssql/server:2022-CU12-ubuntu-22.04
         deploy:
-            resources:
-                limits:
-                    cpus: '0.80'
-                    memory: 9G
-                reservations:
-                    cpus: '0.25'
-                    memory: 4G
+                resources:
+                    limits:
+                        cpus: '4.00'
+                        memory: 9G
+                    reservations:
+                        cpus: '2.50'
+                        memory: 6G
         environment:
             - ACCEPT_EULA=Y
             - MSSQL_SA_PASSWORD=FEVRIPS1*
@@ -35,13 +35,13 @@ services:
         container_name: fevrips-api
         image: crmspsgovcoprd.azurecr.io/production-fevrips-apilocal
         deploy:
-            resources:
-                limits:
-                    cpus: '0.50'
-                    memory: 3G
-                reservations:
-                    cpus: '0.25'
-                    memory: 1G
+                resources:
+                    limits:
+                        cpus: '4.00'
+                        memory: 9G
+                    reservations:
+                        cpus: '2.50'
+                        memory: 6G
         ports:
           - "9443:5100"
         environment:
@@ -50,21 +50,10 @@ services:
           - ASPNETCORE_Kestrel__Certificates__Default__Path=/certificates/server.pfx
         volumes:
         - ./certificates:/certificates
-
         networks:
           - fevrips-net
         depends_on:   
           - fevrips-db
 
+ # Nota: validar documentación referente, para los recuros del límite y reserva del contenedor 
 
-# Versión: 1.4.1 Producción
-# Ajustes:
-# •	Actualización de la Interfaz de usuario 
-# •	Relación de mensajes de RECHAZO, agrupados por el mismo concepto 
-# •	Mejoras para el procesamiento de archivos grandes 
-# •	Actualización en la validación del Tipo de documento TI  a CC, cuando la edad es de 19 años o superior
-# •	Notificación de la validación de PSS a PSS
-# •	Ajuste en el proceso de Fórmulas magistrales, para permitir   un solo componente activo
-# •	Ajuste en el campo de  nombre de la tecnología  ("nomTecnologiaSalud ) del registro de Medicamentos para permitir aceptar hasta 120 caracteres
-# •	Uso del esquema de compresión de archivos GZIP
-# •	Se puede transmitir hasta archivos de 200 MB comprimidos 
